@@ -1,31 +1,13 @@
 from flask import Flask, render_template, url_for
 app = Flask(__name__)
 
-accounts = [
-    {
-        'name': 'John Doe',
-        'lookingforgroup': 'Yes',
-        'subject': 'Science',
-        'email': 'johndoe@syr.edu'
-    },
-    {
-        'name': 'Jane Doe',
-        'lookingforgroup': 'Yes',
-        'subject': 'Math',
-        'email': 'janedoe@syr.edu'
-    },
-    {
-        'name': 'Grumpy Gus',
-        'lookingforgroup': 'Yes',
-        'subject': 'Statistics',
-        'email': 'ggus@syr.edu'
-    }
-]
+
+
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('mainPage.html')
+    return render_template('login.html')
 
 @app.route("/login")
 def login():
@@ -48,6 +30,31 @@ def findGroup():
 #Look into changing the color of the whole webpage
     #This will be in main.css
 
+
+ #student profile class. ideally this would save itself between user uses but idk how to do that
+class StudentProfile:
+    lst = []
+    
+   
+    def __init__(self,subject,partner,name,email):
+        self.s = subject
+        self.p = partner
+        self.n = name
+        self.e = email
+        
+    
+        if(partner == True):
+            self.lst.append(self.n)
+            self.lst.append(self.s)
+    def chgsbj(self, sub):
+        subject=sub
+        self.s =subject
+    
+
+accounts = [ StudentProfile("science",True,'John Doe', 'johndoe@syr.edu'),
+                    StudentProfile("math",True,'Jane Doe', 'janedoe@syr.edu'),
+                    StudentProfile("statistics",True,'Grumpy Gus', 'ggus@syr.edu')
+                    ]
 
 if __name__ == '__main__':
     app.run(debug = True)
