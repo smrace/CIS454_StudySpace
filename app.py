@@ -17,6 +17,10 @@ def login():
 def createAccount():
     return render_template('createAccount.html', title='Create Account')
 
+@app.route("/mainPage")
+def mainPage():
+    return render_template('mainPage.html', title='Main Page')
+
 @app.route("/about")
 def about():
     return render_template('about.html', title='about')
