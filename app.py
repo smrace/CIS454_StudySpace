@@ -1,8 +1,9 @@
 from flask import Flask, render_template, url_for
 app = Flask(__name__)
+from flask_bcrypt import Bcrypt
 
 
-
+bcrypt = Bcrypt(app)
 
 @app.route("/")
 @app.route("/home")
@@ -53,7 +54,25 @@ class StudentProfile:
     def chgsbj(self, sub):
         subject=sub
         self.s =subject
+
+#call this when creating password for first time
+def crypter(password):
+    pw_hash = bcrypt.generate_password_hash(passkey).decode("utf-8")
+    #line to upload pw hash to data base
+    #user.password = pw_hash
+    #db.session.add(user)
+    #db.session.commit()
+
+#call this when authenticating
+def authenticator(attempted_pass):
+    if bcrypt.check_password_hash(database.get.pwh, attempted_pass):
+       return redirect(url_for('mainPage'))
+    else :
+        #flash(f'Wrong password to the entered username. Please try again.')
+        return redirect(url_for('login'))
     
+    
+
 
 accounts = [ StudentProfile("science",True,'John Doe', 'johndoe@syr.edu'),
                     StudentProfile("math",True,'Jane Doe', 'janedoe@syr.edu'),
