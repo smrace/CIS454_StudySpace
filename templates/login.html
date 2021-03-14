@@ -1,26 +1,56 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>Please Enter Username and Password</h1>
-    <br>
-    <br>
-    <!--This will connect to database rather than email once database is 
-    set up-->
-    <form action="mailto:jthoma25@syr.edu" method="POST"></form>
-    <br>
-    <label for="email">Email: </label>
-    <br>
-    <input type="text" id="email" name="email">
-    <br>
-    <label for="password">Password: </label>
-    <br>
-    <input type="text" id="password" name="password">
-    <br>
-    <br>
-    <a href="mainPage">Login</a>
-    <br>
-    <br>
-    <br>
-    New to StudySpace?
-    <br>
-    <a href="createAccount">Create Account</a>
+    <div class="content-section">
+        <form method="POST" action="">
+            <!--Hidden tag adds a Cross Site Request Forgery Token
+            helps against attacks-->
+            <!--forms are taken from app.py-->
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Log In</legend>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-check">
+                    {{ form.remember(class="form-check-input") }}
+                    {{ form.remember.label(class="form-check-label") }}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+            <small class="text-muted ml-2">
+                <!--# is a dummy link need to fill with a forgot password link-->
+                <a href="#">Forgot Password?</a>
+            </small>
+        </form>
+    </div>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Need An Account? <a class="ml-2" href="{{ url_for('createAccount') }}">Create Account</a>
+        </small>
+    </div>
 {% endblock content %}
