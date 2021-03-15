@@ -10,8 +10,8 @@ def load_user(user_id):
 #the first and last name were giving me issues so they may have to be modified. Might not be up to date with site.db
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String(20), nullable=False, default="Student First Name")
-    lastName = db.Column(db.String(20), nullable=False, default="Student Last Name")
+    firstName = db.Column(db.String(20), nullable=False, default='Student First Name')
+    lastName = db.Column(db.String(20), nullable=False, default='Student Last Name')
     emailAddress = db.Column(db.String(75), unique=True, nullable=False)
     userType = db.Column(db.String(10), nullable=False, default='Student')
     username = db.Column(db.String(25), unique=True, nullable=False)
