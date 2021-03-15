@@ -1,21 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>Welcome!</h1>
-<br>
-<br>
-<h2>Choose your study method</h2>
-<!--This will connect to database rather than email once database is 
-    set up-->
-<form action="mailto:jthoma25@syr.edu" method="POST"></form>
-<br>
-<br>
-<input type="radio" name="solo" id="solo" value="Solo">
-<label for="solo">Solo</label>
-<input type="radio" name="Group" id="Group" value="Group">
-<label for="Group">Group</label>
-<br>
-<a href="mainPage"><input type="submit" value="Submit"></a>
 
 
+        <form method="POST" action="">
+    
+        <input type="radio" name="group" id="group" value="group">
+        <label for="group">Group</label>
 
+        <input type="radio" name="Solo" id="Solo" value="Solo">
+        <label for="Solo">Solo</label>
+        <br>
+        <br> 
+        <p>Please select the subject you will be working on:</p>
+        <select name=subjects method="GET" action="/">
+            <option value= "Math">Math</option>
+            <option value= "English">English</option>
+            <option value= "Science">Scinece</option>
+            <option value= "Social Studies">Social Studies</option>
+        </select>
+        <br>   
+        <br> 
+        <a href="map"><input type="submit" value="Submit"></a>
+
+        </form>
+    
+            
+ 
 {% endblock content %}
