@@ -62,12 +62,12 @@ def mainPage():
     return render_template('mainPage.html', title='Main Page')
 
 
-@app.route("/map")
+@app.route("/map", methods=['GET', 'POST'])
 def map():
     return render_template('map.html', title='Map')
 
 
-@app.route("/survey")
+@app.route("/survey", methods=['GET', 'POST'])
 def survey():
     return render_template('survey.html', title='Survey')
 
