@@ -1,29 +1,26 @@
 from datetime import datetime
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from studyspace import db, login_manager
+from flask_login import UserMixin
 
-app = Flask(__name__)
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
-#@app.route("/")
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
-
-
-class User(db.Model):
+#UserMixin is used to help login a user
+#the first and last name were giving me issues so they may have to be modified. Might not be up to date with site.db
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String(20), nullable=False)
-    lastName = db.Column(db.String(20), nullable=False)
+    firstName = db.Column(db.String(20), nullable=False, default='Student First Name')
+    lastName = db.Column(db.String(20), nullable=False, default='Student Last Name')
     emailAddress = db.Column(db.String(75), unique=True, nullable=False)
-    userProfile = db.Column(db.String(20), nullable=False, default='default.jpg')
-    userType = db.Column(db.String(10),nullable=False, default='Student')
-    loginName = db.Column(db.String(25), unique=True, nullable=False)
-    password = db.Column(db.String(40),nullable=False)
+    userType = db.Column(db.String(10), nullable=False, default='Student')
+    username = db.Column(db.String(25), unique=True, nullable=False)
+    password = db.Column(db.String(40), nullable=False)
     groups = db.relationship('Group', backref='groupName', lazy=True)
     reservation = db.relationship('Reservation', backref='reservationUser', lazy=True) 
 
     def __repr__(self):
-        return f"User('{self.firstName}', '{self.lastName}', '{self.emailAddress}', '{self.userProfile}', '{self.userType}', '{self.loginName}', '{self.password}') "
+        return f"User('{self.firstName}', '{self.lastName}', '{self.emailAddress}', '{self.username}', '{self.userType}', '{self.password}') "
 
 class Building(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,6 +28,7 @@ class Building(db.Model):
     floor = db.Column(db.Integer, nullable=False)
     lattitude = db.Column(db.String(50), nullable=False)
     longitude = db.Column(db.String(50), nullable=False)
+    #may need to add default=datetime.utcnow
     openHour = db.Column(db.DateTime, nullable=False)
     closeHour = db.Column(db.DateTime, nullable=False)
     rooms = db.relationship('Room', backref='roomNumber', lazy=True) 
@@ -108,7 +106,3 @@ class StudentSubject(db.Model):
     def __repr__(self):
         return f"Reservation('{self.raRoom_id}', '{self.raAmenity_id}')"
 
-
-
-if __name__ == '__main__':
-    app.run(debug = True)
