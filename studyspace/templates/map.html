@@ -1,10 +1,86 @@
 {% extends "layout.html" %}
+
 {% block content %}
 
-<p>This is where the map will be. Work in progress.</p>
+    <title>Custom Markers</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 50;
+        padding: 50;
+      }
+    </style>
+    <script>
+      let map;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: new google.maps.LatLng(43.037698550614905, -76.13512157165509),
+          zoom: 16,
+        });
+        
+          
+        
+        const features = [
+          {
+            position: new google.maps.LatLng(43.037698550614905, -76.13512157165509),
+            title: "Hendricks",
+            content: '<div id="content">' +
+                      '<div id="siteNotice">' +
+                      "</div>" +
+                      '<h1 id="firstHeading" class="firstHeading">Hendricks</h1>' +
+                      '<div id="bodyContent">' +
+                      "<p><b>Hendricks</b>, also referred to as <b>example building test</b>," +
+                      "Need text here?</p>" +
+                      '<p>GET A ROOM: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+                      "linktobuildingconfirmattionpage.com</a></p>" +
+                      "</div>" +
+                      "</div>"
+          },
+          
+        ];
+        //InfoWindows
+       
+        
+       const infowindow0 = new google.maps.InfoWindow({
+          content: features[0].content
+        });
+        // Create markers.
+        for (let i = 0; i < features.length; i++) {
+          const marker = new google.maps.Marker({
+            position: features[i].position,
+            map: map,
+            title: features[i].title,
+          }
+          );
+          marker.addListener("click", () => {infowindow0.open(map, marker);});
+        }
+        
+      }
+    </script>
+  <body>
+    <div id="map"></div>
+
+  
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    
+  </body>
+</html>
+
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1XYg0ncxZz907aGGOS_G1bTlfLHF0cCc&map_ids=ca8e04af280ad380&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
             
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2916.108086018819!2d-76.1373044854222!3d43.03915729993803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d9f39fba2ccc55%3A0x5e6089065251084d!2sSyracuse%20University!5e0!3m2!1sen!2sus!4v1615851087267!5m2!1sen!2sus" 
-width="600" height="450" style="border:0;" 
-allowfullscreen="" loading="lazy"></iframe>
- 
 {% endblock content %}
+
