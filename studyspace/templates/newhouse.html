@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Newhouse</h1>
+    <h2>Room 101</h2>
+    <form action="mailto:smrace@syr.edu" method="POST">
+    Building: Newhouse
+        <br></br>
+    Capacity: 6
+    <br></br>
+    Amenities: Whiteboard, Projector
+    <div class="text-muted">
+        <a class="ml-2" href="{{ url_for('confirmation') }}">Confirm Room</a>
+    </div>
+    </body>
+    <h2>Room 210</h2>
+    <form action="mailto:smrace@syr.edu" method="POST">
+    Building: Newhouse
+        <br></br>
+    Capacity: 6
+    <br></br>
+    Amenities: Whiteboard, Projector, Printer
+    <div class="text-muted">
+        <a class="ml-2" href="{{ url_for('confirmation') }}">Confirm Room</a>
+    </div>
+    </body>
+    <h2>Room 317</h2>
+    <form action="mailto:smrace@syr.edu" method="POST">
+    Building: Newhouse
+        <br></br>
+    Capacity: 6
+    <br></br>
+    Amenities: Whiteboard, Projector, Printer
+    <div class="text-muted">
+        <a class="ml-2" href="{{ url_for('confirmation') }}">Confirm Room</a>
+    </div>
+    </body>
+{% endblock content %}
