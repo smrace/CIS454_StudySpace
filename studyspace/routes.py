@@ -80,3 +80,45 @@ def about():
 @app.route("/findGroup")
 def findGroup():
     return render_template('findGroup.html', title='Find Group')
+
+
+@app.route("/birdLibrary")
+@login_required
+def birdLibrary():
+    return render_template('birdLibrary.html', title='Bird Library')
+
+
+@app.route("/lifeScienceBuilding")
+@login_required
+def lifeScienceBuilding():
+    return render_template('lifeScienceBuilding.html', title='Life Science Building')
+
+
+@app.route("/link")
+@login_required
+def link():
+    return render_template('link.html', title='Link')
+
+
+@app.route("/falk")
+@login_required
+def falk():
+    return render_template('falk.html', title='Falk')
+
+
+@app.route("/newhouse")
+@login_required
+def newhouse():
+    return render_template('newhouse.html', title='Newhouse')
+
+
+@app.route("/whitman")
+@login_required
+def whitman():
+    return render_template('whitman.html', title='Whitman')
+
+
+@app.route("/confirmation")
+@login_required
+def confirmation():
+    return render_template('confirmation.html', title='Confirm Room')
