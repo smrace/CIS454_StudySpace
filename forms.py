@@ -1,5 +1,9 @@
 from flask_wtf import FlaskForm
+<<<<<<< Updated upstream:forms.py
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
+=======
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField, validators
+>>>>>>> Stashed changes:studyspace/forms.py
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 #username length is being capped at 20 characters, minimum of 3
@@ -25,3 +29,24 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
+def validate_course(form, field):
+    exists = False
+    classes = ['MAT 101', 'ENG 101', 'SCI 101', 'GEO 101']
+    for p in classes:
+        if(field.data == p):
+            exists = True
+    if(exists != True):
+        raise ValidationError('Class does not exist, please enter an existing class.')
+
+class SurveyForm(FlaskForm):
+    course = StringField('Course you want to study', validators=[DataRequired(), validate_course])
+    group = RadioField('Choose preferred study method', choices=[('Group'), ('Solo')])
+    submit = SubmitField('Submit')
+
+
+    
+    
+    
+
+
+ 

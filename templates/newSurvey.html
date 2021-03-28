@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="content-section">
+        <form method="POST" action="">
+            {{form.hidden_tag()}}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Interest Survey</legend>
+                <div class="form-group">
+                    <p>Please select your major:</p>
+                    <select name=major method="GET" action="/">
+                        <option value= "Accounting">Accounting</option>
+                        <option value= "Computer Science">Computer Science</option>
+                        <option value= "Sport Management">Sport Management</option>
+                        <option value= "Undecided">Undecided</option>
+                        <option value= "Zooology">Zooology</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    {{form.group}}
+                </div>
+                
+                <div class="form-group">
+                    {{form.course.label(class="form-control-label")}}
+                    {{form.course(class="form-control form-control-lg")}}
+                </div>
+            </fieldset>
+                
+    
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+    
+            </form>
+        </div>
+    
+            
+ 
+{% endblock content %}
