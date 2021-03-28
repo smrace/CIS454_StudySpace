@@ -10,72 +10,70 @@ def load_user(user_id):
 #the first and last name were giving me issues so they may have to be modified. Might not be up to date with site.db
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String(20), nullable=False, default='Student First Name')
-    lastName = db.Column(db.String(20), nullable=False, default='Student Last Name')
+    first = db.Column(db.String(20), nullable=False, default='Student First Name')
+    last = db.Column(db.String(20), nullable=False, default='Student Last Name')
     emailAddress = db.Column(db.String(75), unique=True, nullable=False)
-    userType = db.Column(db.String(10), nullable=False, default='Student')
-    username = db.Column(db.String(25), unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
+    major = db.Column(db.String(40), nullable=False, default='Undecided')
+    study = db.Column(db.String(40), nullable=False, default='MAT 101')
     groups = db.relationship('Group', backref='groupName', lazy=True)
     reservation = db.relationship('Reservation', backref='reservationUser', lazy=True) 
 
     def __repr__(self):
-        return f"User('{self.firstName}', '{self.lastName}', '{self.emailAddress}', '{self.username}', '{self.userType}', '{self.password}') "
+        return f"User('{self.first}', '{self.last}', '{self.emailAddress}', '{self.password}', '{self.major}', '{self.study}') "
 
 class Building(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60), nullable=False)
-    floor = db.Column(db.Integer, nullable=False)
-    lattitude = db.Column(db.String(50), nullable=False)
-    longitude = db.Column(db.String(50), nullable=False)
-    #may need to add default=datetime.utcnow
-    openHour = db.Column(db.DateTime, nullable=False)
-    closeHour = db.Column(db.DateTime, nullable=False)
+    openHour = db.Column(db.String(10), nullable=False)
+    closeHour = db.Column(db.String(10), nullable=False)
     rooms = db.relationship('Room', backref='roomNumber', lazy=True) 
     reservation = db.relationship('Reservation', backref='reservationLocation', lazy=True) 
 
     def __repr__(self):
-        return f"Building('{self.name}', '{self.floor}', '{self.lattitude}', '{self.longitude}', '{self.openHour}', '{self.closeHour}') "
+        return f"Building('{self.name}', '{self.openHour}', '{self.closeHour}') "
 
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    studyType = db.Column(db.Boolean, nullable=True)
     size = db.Column(db.Integer, nullable=False)
     reservation = db.relationship('Reservation', backref='reservationGroup', lazy=True) 
     
     def __repr__(self):
-        return f"Group('{self.size}') "
+        return f"Group('{self.user_id}','{self.studyType}', '{self.size}') "
 
 
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     building_id = db.Column(db.Integer, db.ForeignKey('building.id'), nullable=False)
     amenities_id = db.Column(db.Integer, db.ForeignKey('amenities.id'), nullable=False)
-    roomName = db.Column(db.String(10), unique=True, nullable=False)
+    name = db.Column(db.String(10), unique=True, nullable=False)
+    floor = db.Column(db.String(10), nullable=False)
     roomType = db.Column(db.String(20), nullable=False)
-    roomCapactiy = db.Column(db.Integer, nullable=False)
+    capacity = db.Column(db.Integer, nullable=False)
     reservation = db.relationship('Reservation', backref='reservationRoom', lazy=True) 
 
 
     def __repr__(self):
-        return f"Room('{self.roomNumber}', '{self.roomType}', '{self.roomCapactiy}')"
+        return f"Room('{self.building_id}', '{self.amenities_id}', '{self.name}', '{self.floor}', '{self.roomType}', '{self.capacity}')"
 
 class Amenities(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    amenityName = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(30), nullable=False)
     amenityType = db.Column(db.String(40), nullable=False)
     room = db.relationship('Room', backref='roomAmenities', lazy=True) 
 
     def __repr__(self):
-        return f"Amenities('{self.amenityName}', '{self.amenityType}')"
+        return f"Amenities('{self.name}', '{self.amenityType}')"
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    subjectName = db.Column(db.String(40), unique=True, nullable=True)
+    name = db.Column(db.String(40), unique=True, nullable=True)
     
     def __repr__(self):
-        return f"Subject('{self.subjectName}')"
+        return f"Subject('{self.name}')"
 
 
 class Reservation(db.Model):
@@ -88,7 +86,7 @@ class Reservation(db.Model):
     totalHours = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return f"Reservation('{self.datetimeReserved}', '{self.totalHours}')"
+        return f"Reservation('{self.room_id}','{self.building_id}','{self.group_id}','{self.user_id}','{self.datetimeReserved}', '{self.totalHours}')"
 
 class RoomAmenities(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -96,13 +94,13 @@ class RoomAmenities(db.Model):
     raAmenity_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return f"Reservation('{self.raRoom_id}', '{self.raAmenity_id}')"
+        return f"RoomAmenities('{self.raRoom_id}', '{self.raAmenity_id}')"
 
 class StudentSubject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    raRoom_id = db.Column(db.Integer, nullable=False)
-    raAmenity_id = db.Column(db.Integer, nullable=False)
+    ssStudent_id = db.Column(db.Integer, nullable=False)
+    ssSubject_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return f"Reservation('{self.raRoom_id}', '{self.raAmenity_id}')"
+        return f"StudentSubject('{self.ssStudent_id}', '{self.sssubject_id}')"
 

@@ -8,20 +8,10 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Create Account</legend>
-                <div class="form-group">
-                    {{ form.username.label(class="form-control-label") }}
-                    <!--if the inputted info is invalid, we will get an error-->
-                    {% if form.username.errors %}
-                        {{ form.username(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.username.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.username(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
+<<<<<<< HEAD
+                
+=======
+>>>>>>> c9978c9094183e99ae75e3849a71105b286b2617
                 <div class="form-group">
                     {{ form.email.label(class="form-control-label") }}
                     {% if form.email.errors %}
