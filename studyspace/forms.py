@@ -10,8 +10,6 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 #password length has a maximum of 20 characters, minimum of 8
 #these classes import flask libraries and accept emails, usernames, passwords etc.
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', 
-                            validators=[DataRequired(), Length(min=3, max=20)])
     email = StringField('Email', 
                             validators=[DataRequired(), Length(min=0, max=50),Email()])
     password = PasswordField('Password',
