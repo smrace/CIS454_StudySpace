@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from studyspace import app, db, bcrypt
-from studyspace.forms import RegistrationForm, LoginForm
+from studyspace.forms import RegistrationForm, LoginForm, SurveyForm
 from studyspace.database import User, Building, Group, Room, Amenities, Subject, Reservation, RoomAmenities, StudentSubject
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -15,7 +15,7 @@ def home():
 @app.route("/createAccount", methods=['GET', 'POST'])
 def createAccount():
     if current_user.is_authenticated:
-        return redirect(url_for('survey'))
+        return redirect(url_for('newSurvey'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -69,7 +69,28 @@ def map():
 
 @app.route("/survey", methods=['GET', 'POST'])
 def survey():
-    return render_template('survey.html', title='Survey')
+    form = SurveyForm()
+    if form.validate_on_submit():
+        User.groups = form.group
+        User.study = form.course
+        db.session.commit()
+        return redirect(url_for('map'))
+    else:
+        flash('Invalid Class, try again.')
+    return render_template('survey.html', title='Survey', form=form)
+
+@app.route("/newSurvey", methods=['GET', 'POST'])
+def newSurvey():
+    form = SurveyForm()
+    if form.validate_on_submit():
+        User.major = request.form['major']
+        User.groups = form.group
+        User.study = form.course
+        db.session.commit()
+        return redirect(url_for('map'))
+    else:
+        flash('Invalid Class, try again.')
+    return render_template('newSurvey.html', title='New Account Survey', form=form)
 
 
 @app.route("/about")
