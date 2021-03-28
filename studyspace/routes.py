@@ -19,11 +19,11 @@ def createAccount():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, emailAddress=form.email.data, password=hashed_password)
+        user = User(emailAddress=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f'Account successfully created!', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('newSurvey'))
     return render_template('createAccount.html', title='Create Account', form=form)
 
 

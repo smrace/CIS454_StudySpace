@@ -14,8 +14,8 @@ class User(db.Model, UserMixin):
     last = db.Column(db.String(20), nullable=False, default='Student Last Name')
     emailAddress = db.Column(db.String(75), unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
-    major = db.Column(db.String(40), nullable=False)
-    study = db.Column(db.String(40), nullable=False)
+    major = db.Column(db.String(40), nullable=False, default='Undecided')
+    study = db.Column(db.String(40), nullable=False, default='MAT 101')
     groups = db.relationship('Group', backref='groupName', lazy=True)
     reservation = db.relationship('Reservation', backref='reservationUser', lazy=True) 
 
