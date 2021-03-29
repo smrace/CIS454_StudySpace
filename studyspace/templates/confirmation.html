@@ -2,13 +2,14 @@
 
 {% block content %}
 <body>
-    <h2>Confirm Room</h2>
-    <form action="mailto:smrace@syr.edu" method="POST">
-       Building: Link
-        <br></br>
-       Room Number: 105
-    </form>
-        <input type="submit" value="Confirm Reservation"/> 
-        </form>
+    <h2>You Have Successfully Confirmed Your Reservation!</h2>
+    <br>If you wish to cancel your reservation, press the Cancel Reservation button.</br>
+    <a class="mr-2" href="{{ url_for('map') }}">
+        <button class="pure-button button-warning confirm" type="submit">Cancel Reservation</button>
+    </a>
+    <br></br>
+    <a class="mr-2" href="{{ url_for('mainPage') }}">
+        <button class="pure-button button-warning confirm" type="submit">Home Page</button>
+    </a> 
  </body>
 {% endblock content %}
