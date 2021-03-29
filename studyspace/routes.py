@@ -64,7 +64,6 @@ def mainPage():
 
 @app.route("/map", methods=['GET', 'POST'])
 def map():
-    
     return render_template('map.html', title='Map')
 
 
@@ -72,8 +71,8 @@ def map():
 def survey():
     form = SurveyForm()
     if form.validate_on_submit():
-        User.groups = form.group
-        User.study = form.course
+        User.groups = form.group.data
+        User.study = form.course.data
         db.session.commit()
         return redirect(url_for('map'))
     else:
@@ -85,8 +84,8 @@ def newSurvey():
     form = SurveyForm()
     if form.validate_on_submit():
         User.major = request.form['major']
-        User.groups = form.group
-        User.study = form.course
+        User.groups = form.group.data
+        User.study = form.course.data
         db.session.commit()
         return redirect(url_for('map'))
     else:
@@ -101,7 +100,8 @@ def about():
 
 @app.route("/findGroup")
 def findGroup():
-    return render_template('findGroup.html', title='Find Group')
+    myUser = User.query.all()
+    return render_template('findGroup.html', title='Find Group', myUser=myUser)
 
 
 @app.route("/birdLibrary")
