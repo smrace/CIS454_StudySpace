@@ -40,3 +40,14 @@ class SurveyForm(FlaskForm):
     course = StringField('Course you want to study', validators=[DataRequired(), validate_course])
     group = RadioField('Choose preferred study method', choices=[('Group'), ('Solo')])
     submit = SubmitField('Submit')
+
+class BuildingForm(FlaskForm):
+    name = StringField('Room Name: ')
+    amenities = StringField('Amenities: ')
+    floor = StringField('Floor: ')
+    roomType = StringField('Room Type: ')
+    capacity = StringField('Room Capacity: ')
+    confirm = SubmitField('Confirm')
+
+
+

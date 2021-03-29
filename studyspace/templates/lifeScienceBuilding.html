@@ -1,37 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Life Science Building</h1>
-    <h2>Room 140</h2>
-    <form action="mailto:smrace@syr.edu" method="POST">
-    Building: Life Science Building
-        <br></br>
-    Capacity: 6
-    <br></br>
-    Amenities: Whiteboard, Projector, Printer
-    <div class="text-muted">
-        <a class="ml-2" href="{{ url_for('confirmation') }}">Confirm Room</a>
+<h1>Life Science Rooms</h1>
+{% for room in rooms %}
+<article class="media content-section">
+    <div class="media-body">
+      <div class="article-metadata">
+        Room Number: <a class="mr-2">{{ room.name }}</a>
+      </div>
+      Room Floor: <p class="article-content">{{ room.floor }}</p>
+      Room Type: <p class="article-content">{{ room.roomType }}</p>
+      Room Capacity: <p class="article-content">{{ room.capacity }}</p>
+      Room Amenities: <p class="article-content">{{ room.roomAmenities.name}}</p>
+      <div class="article-metadata">
+        <h2>Confirm Room</h2>
+      </div>
+        Room Number: <a class="mr-2">{{ room.name }}</a>
+        <a class="mr-2" href="{{ url_for('confirmation') }}">
+            <button class="pure-button button-warning confirm" type="submit">Confirm</button>
+        </a>
     </div>
-    </body>
-    <h2>Room 270</h2>
-    <form action="mailto:smrace@syr.edu" method="POST">
-    Building: Life Science Building
-        <br></br>
-    Capacity: 6
-    <br></br>
-    Amenities: Whiteboard, Projector, Printer
-    <div class="text-muted">
-        <a class="ml-2" href="{{ url_for('confirmation') }}">Confirm Room</a>
-    </div>
-    </body>
-    <h2>Room 320</h2>
-    <form action="mailto:smrace@syr.edu" method="POST">
-    Building: Life Science Building
-        <br></br>
-    Capacity: 6
-    <br></br>
-    Amenities: Whiteboard, Projector, Printer
-    <div class="text-muted">
-        <a class="ml-2" href="{{ url_for('confirmation') }}">Confirm Room</a>
-    </div>
-    </body>
+  </article>
+{% endfor %}
 {% endblock content %}

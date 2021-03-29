@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from studyspace import app, db, bcrypt
-from studyspace.forms import RegistrationForm, LoginForm, SurveyForm
+from studyspace.forms import RegistrationForm, LoginForm, SurveyForm, BuildingForm
 from studyspace.database import User, Building, Group, Room, Amenities, Subject, Reservation, RoomAmenities, StudentSubject
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -71,8 +71,8 @@ def map():
 def survey():
     form = SurveyForm()
     if form.validate_on_submit():
-        User.groups = form.group
-        User.study = form.course
+        User.groups = form.group.data
+        User.study = form.course.data
         db.session.commit()
         return redirect(url_for('map'))
     else:
@@ -84,8 +84,8 @@ def newSurvey():
     form = SurveyForm()
     if form.validate_on_submit():
         User.major = request.form['major']
-        User.groups = form.group
-        User.study = form.course
+        User.groups = form.group.data
+        User.study = form.course.data
         db.session.commit()
         return redirect(url_for('map'))
     else:
@@ -100,43 +100,62 @@ def about():
 
 @app.route("/findGroup")
 def findGroup():
-    return render_template('findGroup.html', title='Find Group')
+    myUser = User.query.all()
+    return render_template('findGroup.html', title='Find Group', myUser=myUser)
 
 
-@app.route("/birdLibrary")
+@app.route("/birdLibrary", methods=['GET', 'POST'])
 @login_required
 def birdLibrary():
-    return render_template('birdLibrary.html', title='Bird Library')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='2').all()
+    amens = Amenities.query.all()
+    return render_template('birdLibrary.html', title='Bird Library', form=form, rooms=rooms, amens=amens)
 
 
-@app.route("/lifeScienceBuilding")
+@app.route("/lifeScienceBuilding", methods=['GET', 'POST'])
 @login_required
 def lifeScienceBuilding():
-    return render_template('lifeScienceBuilding.html', title='Life Science Building')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='3').all()
+    amens = Amenities.query.all()
+    return render_template('lifeScienceBuilding.html', title='Life Science Building', form=form, rooms=rooms, amens=amens)
 
 
-@app.route("/link")
+@app.route("/link", methods=['GET', 'POST'])
 @login_required
 def link():
-    return render_template('link.html', title='Link')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='6').all()
+    amens = Amenities.query.all()
+    return render_template('link.html', title='Link', form=form, rooms=rooms, amens=amens)
 
 
-@app.route("/falk")
+@app.route("/falk", methods=['GET', 'POST'])
 @login_required
 def falk():
-    return render_template('falk.html', title='Falk')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='5').all()
+    amens = Amenities.query.all()
+    return render_template('falk.html', title='Falk', form=form, rooms=rooms, amens=amens)
 
 
-@app.route("/newhouse")
+@app.route("/newhouse", methods=['GET', 'POST'])
 @login_required
 def newhouse():
-    return render_template('newhouse.html', title='Newhouse')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='4').all()
+    amens = Amenities.query.all()
+    return render_template('newhouse.html', title='Newhouse', form=form, rooms=rooms, amens=amens)
 
 
-@app.route("/whitman")
+@app.route("/whitman", methods=['GET', 'POST'])
 @login_required
 def whitman():
-    return render_template('whitman.html', title='Whitman')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='1').all()
+    amens = Amenities.query.all()
+    return render_template('whitman.html', title='Whitman', form=form, rooms=rooms, amens=amens)
 
 
 @app.route("/confirmation")
