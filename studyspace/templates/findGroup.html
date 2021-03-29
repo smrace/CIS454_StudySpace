@@ -1,15 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for post in posts %}
-    <article class="media content-section">
-        <div class="media-body">
-        <div class="article-metadata">
-            <a class="mr-2" href="#">{{ account.name }}</a>
-            <small class="text-muted">{{ account.email }}</small>
-        </div>
-        <h2><a class="Subject" href="#">{{ account.subject }}</a></h2>
-        </div>
-    </article>
-    <!---Does not print out users-->
-    {% endfor %}
+
+<h2>Other Students Looking for group </h2>
+{% for user in myUser %}
+<li>{{user.emailAddress}}</li>
+{% endfor %}
+
+
+
 {% endblock content %}
