@@ -14,8 +14,8 @@ class User(db.Model, UserMixin):
     last = db.Column(db.String(20), nullable=False, default='Student Last Name')
     emailAddress = db.Column(db.String(75), unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
-    major = db.Column(db.String(40), nullable=False, default='Undecided')
-    study = db.Column(db.String(40), nullable=False, default='MAT 101')
+    major = db.Column(db.String(40), nullable=False)
+    study = db.Column(db.String(40), nullable=False)
     groups = db.relationship('Group', backref='groupName', lazy=True)
     reservation = db.relationship('Reservation', backref='reservationUser', lazy=True) 
 
@@ -37,7 +37,7 @@ class Building(db.Model):
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    studyType = db.Column(db.Boolean, nullable=True)
+    studyType = db.Column(db.String(10), nullable=False)
     size = db.Column(db.Integer, nullable=False)
     reservation = db.relationship('Reservation', backref='reservationGroup', lazy=True) 
     

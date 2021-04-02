@@ -19,11 +19,11 @@ def createAccount():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, emailAddress=form.email.data, password=hashed_password)
+        user = User(emailAddress=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f'Account successfully created!', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('newSurvey'))
     return render_template('createAccount.html', title='Create Account', form=form)
 
 
@@ -71,26 +71,57 @@ def map():
 @app.route("/survey", methods=['GET', 'POST'])
 def survey():
     form = SurveyForm()
+    def validate_course():
+        exists = False
+        classes = ['MAT 101', 'ENG 101', 'SCI 101', 'GEO 101']
+        for p in classes:
+            if(form.course.data == p):
+                exists = True
+        if(exists != True):
+            return False
+        else:
+            return True
     if form.validate_on_submit():
-        User.groups = form.group
-        User.study = form.course
-        db.session.commit()
-        return redirect(url_for('map'))
-    else:
-        flash('Invalid Class, try again.')
+        
+        if validate_course():
+            current_user.groups.studyType = form.group.data
+            current_user.study = form.course.data
+            print(current_user.study)
+            db.session.commit()
+            print(current_user.study)
+            return redirect(url_for('map'))
+        else:
+            flash(current_user.emailAddress)
+            flash('Invalid Class, try again.' , 'danger')
+
     return render_template('survey.html', title='Survey', form=form)
 
 @app.route("/newSurvey", methods=['GET', 'POST'])
 def newSurvey():
     form = SurveyForm()
+    def validate_course():
+        exists = False
+        classes = ['MAT 101', 'ENG 101', 'SCI 101', 'GEO 101']
+        for p in classes:
+            if(form.course.data == p):
+                exists = True
+        if(exists != True):
+            return False
+        else:
+            return True
     if form.validate_on_submit():
-        User.major = request.form['major']
-        User.groups = form.group
-        User.study = form.course
-        db.session.commit()
-        return redirect(url_for('map'))
-    else:
-        flash('Invalid Class, try again.')
+        if validate_course():
+            current_user.groups.studyType = form.group.data
+            current_user.major = form.major.data
+            current_user.study = form.course.data
+            print(current_user.study)
+            db.session.commit()
+            print(current_user.study)
+            return redirect(url_for('map'))
+        else:
+            flash(current_user.emailAddress)
+            flash('Invalid Class, try again.' , 'danger')
+
     return render_template('newSurvey.html', title='New Account Survey', form=form)
 
 

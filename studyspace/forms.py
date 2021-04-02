@@ -10,8 +10,6 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 #password length has a maximum of 20 characters, minimum of 8
 #these classes import flask libraries and accept emails, usernames, passwords etc.
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', 
-                            validators=[DataRequired(), Length(min=3, max=20)])
     email = StringField('Email', 
                             validators=[DataRequired(), Length(min=0, max=50),Email()])
     password = PasswordField('Password',
@@ -29,16 +27,9 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
-def validate_course(form, field):
-    exists = False
-    classes = ['MAT 101', 'ENG 101', 'SCI 101', 'GEO 101']
-    for p in classes:
-        if(field.data == p):
-            exists = True
-    if(exists != True):
-        raise ValidationError('Class does not exist, please enter an existing class.')
+
 
 class SurveyForm(FlaskForm):
-    course = StringField('Course you want to study', validators=[DataRequired(), validate_course])
+    course = StringField('Course you want to study', validators=[DataRequired()])
     group = RadioField('Choose preferred study method', choices=[('Group'), ('Solo')])
     submit = SubmitField('Submit')
