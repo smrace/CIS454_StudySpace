@@ -170,8 +170,11 @@ def findGroup():
 @app.route("/birdLibrary", methods=['GET', 'POST'])
 @login_required
 def birdLibrary():
+    #set the form to the building form in forms.py
     form = BuildingForm()
+    #filter through rooms with a query to find the ones with building_id=2
     rooms = Room.query.filter_by(building_id='2').all()
+    #filter to find the amenities with a query
     amens = Amenities.query.all()
     return render_template('birdLibrary.html', title='Bird Library', form=form, rooms=rooms, amens=amens)
 
@@ -179,11 +182,15 @@ def birdLibrary():
 @app.route("/lifeScienceBuilding", methods=['GET', 'POST'])
 @login_required
 def lifeScienceBuilding():
+    #set the form to the building form in forms.py
     form = BuildingForm()
+    #filter through rooms with a query to find the ones with building_id=3
     rooms = Room.query.filter_by(building_id='3').all()
     #reservation = Reservation(room_id=form.name.data, building_id=3, user_id=current_user.id, totalHours=2)
     #db.session.add(reservation)
     #db.session.commit()
+
+    #filter to find the amenities with a query
     amens = Amenities.query.all()
     return render_template('lifeScienceBuilding.html', title='Life Science Building', form=form, rooms=rooms, amens=amens)
 
@@ -200,8 +207,11 @@ def lifeScienceBuilding():
 @app.route("/falk", methods=['GET', 'POST'])
 @login_required
 def falk():
+    #set the form to the building form in forms.py
     form = BuildingForm()
+    #filter through rooms with a query to find the ones with building_id=5
     rooms = Room.query.filter_by(building_id='5').all()
+    #filter to find the amenities with a query
     amens = Amenities.query.all()
     return render_template('falk.html', title='Falk', form=form, rooms=rooms, amens=amens)
 
@@ -209,8 +219,11 @@ def falk():
 @app.route("/newhouse", methods=['GET', 'POST'])
 @login_required
 def newhouse():
+    #set the form to the building form in forms.py
     form = BuildingForm()
+    #filter through rooms with a query to find the ones with building_id=4
     rooms = Room.query.filter_by(building_id='4').all()
+    #filter to find the amenities with a query
     amens = Amenities.query.all()
     return render_template('newhouse.html', title='Newhouse', form=form, rooms=rooms, amens=amens)
 
@@ -218,8 +231,11 @@ def newhouse():
 @app.route("/whitman", methods=['GET', 'POST'])
 @login_required
 def whitman():
+    #set the form to the building form in forms.py
     form = BuildingForm()
+    #filter through rooms with a query to find the ones with building_id=1
     rooms = Room.query.filter_by(building_id='1').all()
+    #filter to find the amenities with a query
     amens = Amenities.query.all()
     return render_template('whitman.html', title='Whitman', form=form, rooms=rooms, amens=amens)
 
