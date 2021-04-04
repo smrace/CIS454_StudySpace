@@ -83,7 +83,7 @@ def survey():
     if form.validate_on_submit():
         
         if validate_course():
-            current_user.groups.studyType = form.group.data
+            #current_user.groupName.studyType = form.group.data
             current_user.study = form.course.data
             print(current_user.study)
             db.session.commit()
@@ -109,8 +109,8 @@ def newSurvey():
             return True
     if form.validate_on_submit():
         if validate_course():
-            current_user.groups.studyType = form.group.data
-            current_user.major = form.request['major']
+            #current_user.groupName.studyType = form.group.data
+            #current_user.major = form.request['major']
             current_user.study = form.course.data
             print(current_user.study)
             db.session.commit()
@@ -150,17 +150,20 @@ def birdLibrary():
 def lifeScienceBuilding():
     form = BuildingForm()
     rooms = Room.query.filter_by(building_id='3').all()
+    #reservation = Reservation(room_id=form.name.data, building_id=3, user_id=current_user.id, totalHours=2)
+    #db.session.add(reservation)
+    #db.session.commit()
     amens = Amenities.query.all()
     return render_template('lifeScienceBuilding.html', title='Life Science Building', form=form, rooms=rooms, amens=amens)
 
 
-@app.route("/link", methods=['GET', 'POST'])
-@login_required
-def link():
-    form = BuildingForm()
-    rooms = Room.query.filter_by(building_id='6').all()
-    amens = Amenities.query.all()
-    return render_template('link.html', title='Link', form=form, rooms=rooms, amens=amens)
+#@app.route("/link", methods=['GET', 'POST'])
+#@login_required
+#def link():
+    #form = BuildingForm()
+    #rooms = Room.query.filter_by(building_id='6').all()
+    #amens = Amenities.query.all()
+    #return render_template('link.html', title='Link', form=form, rooms=rooms, amens=amens)
 
 
 @app.route("/falk", methods=['GET', 'POST'])
