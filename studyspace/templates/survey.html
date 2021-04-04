@@ -2,24 +2,27 @@
 {% block content %}
 
     <div class="content-section">
+        <!--set form to POST so data can be retreived-->
         <form method="POST" action="">
+            <!--apply hidden tag for security purposes-->
             {{form.hidden_tag()}}
             <fieldset class="form-group">
+                <!--caption-->
                 <legend class="border-bottom mb-4">Interest Survey</legend>
                 <br>
                 <br>
-                
+                <!--radio buttons for group or solo work-->
                 <div class="form-group">
                     {{form.group}}
                 </div>
-                
+                <!--course text box-->
                 <div class="form-group">
                     {{form.course.label(class="form-control-label")}}
                     {{form.course(class="form-control form-control-lg")}}
                 </div>
             </fieldset>
                 
-    
+            <!--submit button-->
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
