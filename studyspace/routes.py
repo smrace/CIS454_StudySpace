@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from studyspace import app, db, bcrypt
-from studyspace.forms import RegistrationForm, LoginForm, SurveyForm
+from studyspace.forms import RegistrationForm, LoginForm, SurveyForm, BuildingForm
 from studyspace.database import User, Building, Group, Room, Amenities, Subject, Reservation, RoomAmenities, StudentSubject
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -81,7 +81,6 @@ def mainPage():
 #define the route to map.html
 @app.route("/map", methods=['GET', 'POST'])
 def map():
-    
     return render_template('map.html', title='Map')
 
 #define the route to survey.html
@@ -119,7 +118,6 @@ def survey():
         else:
             #if it doesnt exist, tell user to try inputting class again and don't move forward
             flash('Invalid Class, try again.' , 'danger')
-
     return render_template('survey.html', title='Survey', form=form)
 
 #define route for newSurvey.html
@@ -149,7 +147,7 @@ def newSurvey():
         if validate_course():
             #update user information if true
             current_user.groups.studyType = form.group.data
-            current_user.major = form.major.data
+            current_user.major = form.request['major']
             current_user.study = form.course.data
             #update database with changes
             db.session.commit()
@@ -159,6 +157,8 @@ def newSurvey():
             #if it doesnt exist, tell user to try inputting class again and don't move forward
             flash('Invalid Class, try again.' , 'danger')
 
+    else:
+        flash('Invalid Class, try again.')
     return render_template('newSurvey.html', title='New Account Survey', form=form)
 
 #define route for about.html
@@ -169,43 +169,72 @@ def about():
 #define route for findGroup.html
 @app.route("/findGroup")
 def findGroup():
-    return render_template('findGroup.html', title='Find Group')
+    myUser = User.query.all()
+    return render_template('findGroup.html', title='Find Group', myUser=myUser)
 
 #define route for birdLibrary.html
-@app.route("/birdLibrary")
+
+
+@app.route("/birdLibrary", methods=['GET', 'POST'])
 @login_required
 def birdLibrary():
-    return render_template('birdLibrary.html', title='Bird Library')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='2').all()
+    amens = Amenities.query.all()
+    return render_template('birdLibrary.html', title='Bird Library', form=form, rooms=rooms, amens=amens)
 
 #define route for lifeScienceBuilding.html
-@app.route("/lifeScienceBuilding")
+
+
+@app.route("/lifeScienceBuilding", methods=['GET', 'POST'])
 @login_required
 def lifeScienceBuilding():
-    return render_template('lifeScienceBuilding.html', title='Life Science Building')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='3').all()
+    amens = Amenities.query.all()
+    return render_template('lifeScienceBuilding.html', title='Life Science Building', form=form, rooms=rooms, amens=amens)
 
 #define route for link.html
-@app.route("/link")
+
+
+@app.route("/link", methods=['GET', 'POST'])
 @login_required
 def link():
-    return render_template('link.html', title='Link')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='6').all()
+    amens = Amenities.query.all()
+    return render_template('link.html', title='Link', form=form, rooms=rooms, amens=amens)
 
 #define route for falk.html
-@app.route("/falk")
+
+
+@app.route("/falk", methods=['GET', 'POST'])
 @login_required
 def falk():
-    return render_template('falk.html', title='Falk')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='5').all()
+    amens = Amenities.query.all()
+    return render_template('falk.html', title='Falk', form=form, rooms=rooms, amens=amens)
 
 #define route for newhouse.html
-@app.route("/newhouse")
+
+@app.route("/newhouse", methods=['GET', 'POST'])
 @login_required
 def newhouse():
-    return render_template('newhouse.html', title='Newhouse')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='4').all()
+    amens = Amenities.query.all()
+    return render_template('newhouse.html', title='Newhouse', form=form, rooms=rooms, amens=amens)
 
 #define route for whitman.html
-@app.route("/whitman")
+
+@app.route("/whitman", methods=['GET', 'POST'])
 @login_required
 def whitman():
-    return render_template('whitman.html', title='Whitman')
+    form = BuildingForm()
+    rooms = Room.query.filter_by(building_id='1').all()
+    amens = Amenities.query.all()
+    return render_template('whitman.html', title='Whitman', form=form, rooms=rooms, amens=amens)
 
 #define route for confirmation.html
 @app.route("/confirmation")
