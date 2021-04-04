@@ -65,21 +65,6 @@
                       "</div>"
           },
           {
-            position: new google.maps.LatLng(43.037668334404216, -76.13265816853716),
-            title: "Link Hall",
-            content: '<div id="content">' +
-                      '<div id="siteNotice">' +
-                      "</div>" +
-                      '<h1 id="firstHeading" class="firstHeading">Link Hall</h1>' +
-                      '<div id="bodyContent">' +
-                      "<p><b>Link</b>,  center for all things engineering!" +
-                      " Plenty of quiet space for hardworkers, and one of the nicest views on campus on the 3rd floor!</p>" +
-                      '<p>Reserve a Room: <a href="{{ url_for("link") }}">' +
-                      "Link Hall Rooms</a></p>" +
-                      "</div>" +
-                      "</div>"
-          },
-          {
             position: new google.maps.LatLng(43.037397618833126, -76.13744480785901),
             title: "Falk",
             content: '<div id="content">' +
@@ -144,11 +129,8 @@
         const infowindow4 = new google.maps.InfoWindow({
           content: features[4].content
         });
-        const infowindow5 = new google.maps.InfoWindow({
-          content: features[5].content
-        });
         
-        iw = [ infowindow0,infowindow1,infowindow2,infowindow3,infowindow4,infowindow5]
+        iw = [ infowindow0,infowindow1,infowindow2,infowindow3,infowindow4]
         
         // Create markers.
         for (let i = 0; i < features.length; i++) {

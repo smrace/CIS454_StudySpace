@@ -15,36 +15,4 @@ login_manager.login_message_category = 'success'
 from studyspace import routes
 
 
-class StudentProfile:
-    lst = []
-    
-   
-    def __init__(self,subject,partner,name,email):
-        self.s = subject
-        self.p = partner
-        self.n = name
-        self.e = email
-        
-    
-        if(partner == True):
-            self.lst.append(self.n)
-            self.lst.append(self.s)
-    def chgsbj(self, sub):
-        subject=sub
-        self.s =subject
 
-#call this when creating password for first time
-def crypter(password):
-    pw_hash = bcrypt.generate_password_hash(passkey).decode("utf-8")
-    #line to upload pw hash to data base
-    #user.password = pw_hash
-    #db.session.add(user)
-    #db.session.commit()
-
-#call this when authenticating
-def authenticator(attempted_pass):
-    if bcrypt.check_password_hash(database.get.pwh, attempted_pass):
-       return redirect(url_for('mainPage'))
-    else :
-        #flash(f'Wrong password to the entered username. Please try again.')
-        return redirect(url_for('login'))

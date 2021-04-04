@@ -4,7 +4,9 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField
 
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField
 
-from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+
+from studyspace.database import User
 
 #username length is being capped at 20 characters, minimum of 3
 #password length has a maximum of 20 characters, minimum of 8
@@ -18,6 +20,11 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                                         validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Create Account')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(emailAddress=email.data).first()
+        if user:
+            raise ValidationError('That email is taken. Please choose a different one.')
 
 class LoginForm(FlaskForm):
     email = StringField('Email', 
@@ -40,7 +47,8 @@ class BuildingForm(FlaskForm):
     floor = StringField('Floor: ')
     roomType = StringField('Room Type: ')
     capacity = StringField('Room Capacity: ')
-    confirm = SubmitField('Confirm')
+    confirm = SubmitField('Confirm Room by Entering Room Number: ',
+                            validators=[DataRequired()])
 
 
 
