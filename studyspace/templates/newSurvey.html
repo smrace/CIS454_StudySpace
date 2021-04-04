@@ -2,11 +2,15 @@
 {% block content %}
 
     <div class="content-section">
+        <!--set form to POST so data can be retreived-->
         <form method="POST" action="">
+             <!--apply hidden tag for security purposes-->
             {{form.hidden_tag()}}
             <fieldset class="form-group">
+                <!--caption-->
                 <legend class="border-bottom mb-4">Interest Survey</legend>
                 <div class="form-group">
+                    <!--dropdown menu for new users to input their major into the database-->
                     <p>Please select your major:</p>
                     <select name=major method="GET" action="/">
                         <option value= "Accounting">Accounting</option>
@@ -16,12 +20,14 @@
                         <option value= "Zooology">Zooology</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
+                    <!--radio buttons for group or solo work-->
                     {{form.group}}
                 </div>
                 
                 <div class="form-group">
+                    <!--course text box-->
                     {{form.course.label(class="form-control-label")}}
                     {{form.course(class="form-control form-control-lg")}}
                 </div>
@@ -29,6 +35,7 @@
                 
     
             <div class="form-group">
+                <!--submit button-->
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
     
