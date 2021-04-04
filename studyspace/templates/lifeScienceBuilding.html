@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <h1>Life Science Rooms</h1>
+<h2>Hours: 11:00AM-8:00PM</h2>
 {% for room in rooms %}
 <article class="media content-section">
     <div class="media-body">
@@ -12,14 +13,34 @@
       Room Type: <p class="article-content">{{ room.roomType }}</p>
       Room Capacity: <p class="article-content">{{ room.capacity }}</p>
       Room Amenities: <p class="article-content">{{ room.roomAmenities.name}}</p>
-      <div class="article-metadata">
-        <h2>Confirm Room</h2>
+      <div class="content-section">
+        <form method="POST" action="">
+          <!--Hidden tag adds a Cross Site Request Forgery Token
+            helps against attacks-->
+            <!--forms are taken from app.py-->
+          {{ form.hidden_tag() }}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Confirm Room <a class="mr-2">{{ room.name }}</a></legend>
+                  
+              <div class="form-group">
+                  {{ form.confirm.label(class="form-control-label") }}
+                  {% if form.confirm.errors %}
+                      {{ form.confirm(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                          {% for error in form.confirm.errors %}
+                              <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                  {% else %}
+                      {{ form.confirm(class="form-control form-control-lg") }}
+                      <div class="form-group">
+                        {{ form.confirmButton(class="btn btn-outline-info") }}
+                      </div>
+                  {% endif %}
+              </div>
+          </fieldset>
+        </form>
       </div>
-        Room Number: <a class="mr-2">{{ room.name }}</a>
-        <a class="mr-2" href="{{ url_for('confirmation') }}">
-            <button class="pure-button button-warning confirm" type="submit">Confirm</button>
-        </a>
-    </div>
   </article>
 {% endfor %}
 {% endblock content %}

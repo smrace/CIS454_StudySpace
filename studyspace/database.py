@@ -88,19 +88,5 @@ class Reservation(db.Model):
     def __repr__(self):
         return f"Reservation('{self.room_id}','{self.building_id}','{self.group_id}','{self.user_id}','{self.datetimeReserved}', '{self.totalHours}')"
 
-class RoomAmenities(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    raRoom_id = db.Column(db.Integer, nullable=False)
-    raAmenity_id = db.Column(db.Integer, nullable=False)
 
-    def __repr__(self):
-        return f"RoomAmenities('{self.raRoom_id}', '{self.raAmenity_id}')"
-
-class StudentSubject(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    ssStudent_id = db.Column(db.Integer, nullable=False)
-    ssSubject_id = db.Column(db.Integer, nullable=False)
-
-    def __repr__(self):
-        return f"StudentSubject('{self.ssStudent_id}', '{self.sssubject_id}')"
 
