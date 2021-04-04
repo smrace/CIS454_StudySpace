@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h2>Other Students Looking for group </h2>
+<!--return all others in that subject of interest-->
+    <h2>Other Students Looking for {{current_user.study}} </h2>
     {% for user in myUser %}
-        <li>{{user.emailAddress}}</li>
+        {% if user.study == current_user.study %}
+            <li>{{user.emailAddress}}</li>
+           
+        {% endif %}
     {% endfor %}
 {% endblock content %}

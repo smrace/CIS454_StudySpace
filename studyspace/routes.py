@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from studyspace import app, db, bcrypt
 from studyspace.forms import RegistrationForm, LoginForm, SurveyForm, BuildingForm
-from studyspace.database import User, Building, Group, Room, Amenities, Subject, Reservation, RoomAmenities, StudentSubject
+from studyspace.database import User, Building, Group, Room, Amenities, Subject, Reservation
 from flask_login import login_user, current_user, logout_user, login_required
 
 
@@ -131,6 +131,7 @@ def about():
 
 
 @app.route("/findGroup")
+@login_required
 def findGroup():
     myUser = User.query.all()
     return render_template('findGroup.html', title='Find Group', myUser=myUser)
@@ -142,6 +143,11 @@ def birdLibrary():
     form = BuildingForm()
     rooms = Room.query.filter_by(building_id='2').all()
     amens = Amenities.query.all()
+    if form.validate_on_submit():
+        reservation = Reservation(room_id=form.confirm.data, group_id=0, building_id=2, user_id=current_user.id, totalHours=2)
+        db.session.add(reservation)
+        db.session.commit()
+        return redirect(url_for('confirmation'))
     return render_template('birdLibrary.html', title='Bird Library', form=form, rooms=rooms, amens=amens)
 
 
@@ -150,10 +156,12 @@ def birdLibrary():
 def lifeScienceBuilding():
     form = BuildingForm()
     rooms = Room.query.filter_by(building_id='3').all()
-    #reservation = Reservation(room_id=form.name.data, building_id=3, user_id=current_user.id, totalHours=2)
-    #db.session.add(reservation)
-    #db.session.commit()
     amens = Amenities.query.all()
+    if form.validate_on_submit():
+        reservation = Reservation(room_id=form.confirm.data, group_id=0, building_id=3, user_id=current_user.id, totalHours=2)
+        db.session.add(reservation)
+        db.session.commit()
+        return redirect(url_for('confirmation'))
     return render_template('lifeScienceBuilding.html', title='Life Science Building', form=form, rooms=rooms, amens=amens)
 
 
@@ -172,6 +180,11 @@ def falk():
     form = BuildingForm()
     rooms = Room.query.filter_by(building_id='5').all()
     amens = Amenities.query.all()
+    if form.validate_on_submit():
+        reservation = Reservation(room_id=form.confirm.data, group_id=0, building_id=5, user_id=current_user.id, totalHours=2)
+        db.session.add(reservation)
+        db.session.commit()
+        return redirect(url_for('confirmation'))
     return render_template('falk.html', title='Falk', form=form, rooms=rooms, amens=amens)
 
 
@@ -190,6 +203,11 @@ def whitman():
     form = BuildingForm()
     rooms = Room.query.filter_by(building_id='1').all()
     amens = Amenities.query.all()
+    if form.validate_on_submit():
+        reservation = Reservation(room_id=form.confirm.data, group_id=0, building_id=1, user_id=current_user.id, totalHours=2)
+        db.session.add(reservation)
+        db.session.commit()
+        return redirect(url_for('confirmation'))
     return render_template('whitman.html', title='Whitman', form=form, rooms=rooms, amens=amens)
 
 
@@ -197,3 +215,5 @@ def whitman():
 @login_required
 def confirmation():
     return render_template('confirmation.html', title='Confirm Room')
+
+

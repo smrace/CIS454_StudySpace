@@ -6,7 +6,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, Radio
 
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 
-from studyspace.database import User
+from studyspace.database import User, Reservation
 
 #username length is being capped at 20 characters, minimum of 3
 #password length has a maximum of 20 characters, minimum of 8
@@ -47,8 +47,14 @@ class BuildingForm(FlaskForm):
     floor = StringField('Floor: ')
     roomType = StringField('Room Type: ')
     capacity = StringField('Room Capacity: ')
-    confirm = SubmitField('Confirm Room by Entering Room Number: ',
+    confirm = StringField('Confirm Room by Entering Room Number: ',
                             validators=[DataRequired()])
+    confirmButton = SubmitField('Confirm')
+
+    def validate_confirmation(self, confirm):
+        reservation = Reservation.query.filter_by(room_id=confirm.data).first()
+        if reservation:
+            raise ValidationError('This room has already been reserved. Please select another room.')
 
 
 
