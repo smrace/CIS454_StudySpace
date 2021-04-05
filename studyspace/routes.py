@@ -24,6 +24,7 @@ def createAccount():
     form = RegistrationForm()
     #check if validators pass when the submit button is clicked
     if form.validate_on_submit():
+        #create a hashed pass using bcrypt package
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
          #add user and their info to database
         user = User(emailAddress=form.email.data, password=hashed_password)
@@ -51,6 +52,7 @@ def login():
     if form.validate_on_submit():
         #find the user by filtering the database with a query
         user = User.query.filter_by(emailAddress=form.email.data).first()
+        #authenticates user password
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')

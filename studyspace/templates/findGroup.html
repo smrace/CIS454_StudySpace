@@ -2,10 +2,14 @@
 {% block content %}
 <!--return all others in that subject of interest-->
     <h2>Other Students Looking for {{current_user.study}} </h2>
+    <!--iterate through users-->
     {% for user in myUser %}
+    <!--filter subjects-->
         {% if user.study == current_user.study %}
-            <li>{{user.emailAddress}}</li>
-           
+        <!--remove own email-->
+            {% if user.emailAddress != current_user.emailAddress %}
+                <li>{{user.emailAddress}}</li>
+            {% endif %}
         {% endif %}
     {% endfor %}
 {% endblock content %}
