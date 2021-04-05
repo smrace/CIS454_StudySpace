@@ -29,7 +29,7 @@ pip install flask-bcrypt, pip install flask-login
 # How to run  
 Run the website by running app.py as a flask application through the drop-down menu
 
-# Know bugs    
+# Known bugs    
 Currently the reservations that are cancelled are not updated in the database  
 
 
