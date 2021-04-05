@@ -23,7 +23,7 @@ FOR WINDOWS
 
 #pip installs needed  
 pip install flask, pip install flask-sqlalchemy, pip install flask-wtf, pip install email_validator,
-pip install flaks-bcrypt, pip install flask-login
+pip install flask-bcrypt, pip install flask-login
 
 
 #How to run  
