@@ -30,7 +30,7 @@ pip install flask-bcrypt, pip install flask-login
 Run the website by running app.py as a flask application through the drop-down menu
 
 # Known bugs    
--Entering a room number to confirm a room reservation fills out all confirm room fields for each room in all building pages
+-Entering a room number to confirm a room reservation fills out all confirm room fields for each room in all building pages  
 -User stays logged in even if remember me is not selected  
 
 # Unfinished Features
