@@ -6,6 +6,7 @@
 
     <h3>Map</h3>
     <title>Custom Markers</title>
+    <!--start javascript-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <style type="text/css">
       /* Always set the map height explicitly to define the size of the div
@@ -24,7 +25,7 @@
     </style>
     <script>
       let map;
-
+      /* Initiliaze map from google maps, center on cuse */
       function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
           center: new google.maps.LatLng(43.037698550614905, -76.13512157165509),
@@ -32,9 +33,10 @@
         });
         
           
-        2
+        /* list of "features" aka points of interest on map */
         const features = [
           {
+            /* each element in array is given a lat, long, and content to display */
             position: new google.maps.LatLng(43.039857755410125, -76.13262727106307),
             title: "Bird Library",
             content: '<div id="content">' +
@@ -113,7 +115,7 @@
         ];
         //InfoWindows
        
-      
+      /* creates info window object on points of interest that can be clicked */
        const infowindow0 = new google.maps.InfoWindow({
           content: features[0].content
         });
@@ -133,6 +135,7 @@
         iw = [ infowindow0,infowindow1,infowindow2,infowindow3,infowindow4]
         
         // Create markers.
+        /* iterates through features to get markers on map for each */
         for (let i = 0; i < features.length; i++) {
           const marker = new google.maps.Marker({
             position: features[i].position,
@@ -140,6 +143,7 @@
             title: features[i].title,
           }
           );
+          /* mouse click on marker opens infowindow */
           marker.addListener("click", () => {iw[i].open(map, marker);});
         }
         
@@ -155,8 +159,9 @@
     
   </body>
 </html>
-
+<!--source of map from google maps dev account-->
 <script
+      
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1XYg0ncxZz907aGGOS_G1bTlfLHF0cCc&map_ids=ca8e04af280ad380&callback=initMap&libraries=&v=weekly"
       async
     ></script>
