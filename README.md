@@ -13,7 +13,7 @@ newhouse.html, newSurvey.html, profile.html, survey.html, whitman.html, main.css
 Please ensure that your python version is Python3.7.0  
 Install Visual Studio code  
 -Run the command python3 -m venv venv  
--Then run command source venv/bin/activate
+-Then run command source venv/bin/activate  
 This may have to be subsituted for .venv/bin/activate  
 If on Windows, the commands may not work. If they do not work  
 FOR WINDOWS  
