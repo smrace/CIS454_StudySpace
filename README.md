@@ -30,6 +30,9 @@ pip install flask-bcrypt, pip install flask-login
 Run the website by running app.py as a flask application through the drop-down menu
 
 # Known bugs    
-Currently the reservations that are cancelled are not updated in the database  
+Currently the reservations that are cancelled are not updated in the database 
+
+# Unfinished Features
+In the survey when a radio button is not selected and the user attempts to submit, there is no error message prompted. If we had more time, this would have been implemented. Due to group discussions, this was deemed less important to complete than other finalized features.
 
 
