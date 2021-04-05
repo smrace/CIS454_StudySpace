@@ -30,9 +30,12 @@ pip install flask-bcrypt, pip install flask-login
 Run the website by running app.py as a flask application through the drop-down menu
 
 # Known bugs    
-Currently the reservations that are cancelled are not updated in the database 
+-Entering a room number to confirm a room reservation fills out all confirm room fields for each room in all building pages
+-User stays logged in even if remember me is not selected
 
 # Unfinished Features
-In the survey when a radio button is not selected and the user attempts to submit, there is no error message prompted. If we had more time, this would have been implemented. Due to group discussions, this was deemed less important to complete than other finalized features.
+-In the survey when a radio button is not selected and the user attempts to submit, there is no error message prompted. If we had more time, this would have been implemented. Due to group discussions, this was deemed less important to complete than other finalized features.  
+-When reserving a room, 
+-Currently the reservations that are cancelled are not updated in the database
 
 
