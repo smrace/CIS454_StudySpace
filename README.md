@@ -1,10 +1,10 @@
 # CIS454_StudySpace
 #Files included/necessary not in the studyspace folder
-routes.py, site.db, forms.py, app.py, __init__.py
+#routes.py, site.db, forms.py, app.py, __init__.py
 
 
-#files in the studyspace folder are all need
-about.html, birdLibrary.html, confirmation.html, createAccount.html, falk.html, findGroup.html,
+#Files in the studyspace folder are all need
+#about.html, birdLibrary.html, confirmation.html, createAccount.html, falk.html, findGroup.html,
 layout.html, lifeScienceBuilding.html, link.html, login.html, mainPage.html, map.html, 
 newhouse.html, newSurvey.html, profile.html, survey.html, whitman.html, main.css
 
