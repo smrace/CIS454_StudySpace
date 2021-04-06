@@ -1,6 +1,6 @@
 # CIS454_StudySpace
 # Files included/necessary not in the studyspace folder  
-routes.py, site.db, forms.py, app.py, __init__.py
+routes.py, site.db, forms.py, app.py, __init__.py, site.db
 
 
 # Files in the studyspace folder are all need  
