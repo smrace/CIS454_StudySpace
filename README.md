@@ -1,9 +1,9 @@
 # CIS454_StudySpace
-# Files included/necessary not in the studyspace folder  
+# Files included/necessary that are not in the studyspace folder  
 routes.py, site.db, forms.py, app.py, __init__.py, site.db
 
 
-# Files in the studyspace folder are all need  
+# Files in the studyspace folder are all needed  
 about.html, birdLibrary.html, confirmation.html, createAccount.html, falk.html, findGroup.html,
 layout.html, lifeScienceBuilding.html, link.html, login.html, mainPage.html, map.html, 
 newhouse.html, newSurvey.html, profile.html, survey.html, whitman.html, main.css
@@ -27,7 +27,7 @@ pip install flask-bcrypt, pip install flask-login
 
 
 # How to run  
-Run the website by running app.py as a flask application through the drop-down menu
+Once everything is installed and the environment is set up with all of the files needed, run the website by running app.py as a flask application through the drop-down menu.
 
 # Known bugs    
 -Entering a room number to confirm a room reservation fills out all confirm room fields for each room in all building pages.  
