@@ -9,6 +9,8 @@
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Log In</legend>
                 <div class="form-group">
+                    <!--Creates place for user to input email
+                    Checks for errors in the email and allows for email to be used if it is valid against all errors checkers-->
                     {{ form.email.label(class="form-control-label") }}
                     {% if form.email.errors %}
                         {{ form.email(class="form-control form-control-lg is-invalid") }}
@@ -22,6 +24,8 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
+                    <!--Creates place for user to input password
+                    Checks for errors in the password and allows for password to be used if it is valid against all errors checkers-->
                     {{ form.password.label(class="form-control-label") }}
                     {% if form.password.errors %}
                         {{ form.password(class="form-control form-control-lg is-invalid") }}
@@ -35,21 +39,25 @@
                     {% endif %}
                 </div>
                 <div class="form-check">
+                    <!--User can select if they wish to be remebered so that they do not have to log in again-->
                     {{ form.remember(class="form-check-input") }}
                     {{ form.remember.label(class="form-check-label") }}
                 </div>
             </fieldset>
             <div class="form-group">
+                <!--User can hit the submit button and it will submit if no errors arise from the error checkers
+                Takes them to survey page-->
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
             <small class="text-muted ml-2">
-                <!--# is a dummy link need to fill with a forgot password link-->
+                <!--# is a dummy link because we have not created a place to reset a user's password-->
                 <a href="#">Forgot Password?</a>
             </small>
         </form>
     </div>
     <div class="border-top pt-3">
         <small class="text-muted">
+            <!--Gives user the option to create an account by selecting the Create Account button if they do not already have one-->
             Need An Account? <a class="ml-2" href="{{ url_for('createAccount') }}">Create Account</a>
         </small>
     </div>

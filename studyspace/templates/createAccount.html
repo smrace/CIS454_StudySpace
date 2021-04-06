@@ -8,8 +8,9 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Create Account</legend>
-                
                 <div class="form-group">
+                    <!--Creates place for user to input email
+                    Checks for errors in the email and allows for email to be used if it is valid against all errors checkers-->
                     {{ form.email.label(class="form-control-label") }}
                     {% if form.email.errors %}
                         {{ form.email(class="form-control form-control-lg is-invalid") }}
@@ -23,6 +24,8 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
+                    <!--Creates place for user to input password
+                    Checks for errors in the password and allows for password to be used if it is valid against all errors checkers-->
                     {{ form.password.label(class="form-control-label") }}
                     {% if form.password.errors %}
                         {{ form.password(class="form-control form-control-lg is-invalid") }}
@@ -36,6 +39,8 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
+                    <!--Checks to make sure that the password is actually what the user wishes to input
+                    This behind the scenes check is done in forms.py-->
                     {{ form.confirm_password.label(class="form-control-label") }}
                     {% if form.confirm_password.errors %}
                         {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
@@ -50,12 +55,15 @@
                 </div>
             </fieldset>
             <div class="form-group">
+                <!--User can hit the submit button and it will submit if no errors arise from the error checkers
+                Takes them to survey page-->
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </form>
     </div>
     <div class="border-top pt-3">
         <small class="text-muted">
+            <!--Gives user the option to log in if they already have an account, by clicking the Log In button-->
             Already Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Log In</a>
         </small>
     </div>

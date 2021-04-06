@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from studyspace import app, db, bcrypt
-from studyspace.forms import RegistrationForm, LoginForm, SurveyForm, BuildingForm
+from studyspace.forms import RegistrationForm, LoginForm, SurveyForm, BuildingForm, cancelReservation
 from studyspace.database import User, Building, Group, Room, Amenities, Subject, Reservation
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -11,33 +11,48 @@ def home():
     return render_template('mainPage.html')
 
 
-#Look at if statement for when redirecting after reserving room
+#define the route to createAccount.html
 @app.route("/createAccount", methods=['GET', 'POST'])
 def createAccount():
+    #check if new user info is valid
     if current_user.is_authenticated:
+        #move user to new account survey
         return redirect(url_for('newSurvey'))
+    #sets the form of this route to the registration form from forms.py
     form = RegistrationForm()
+    #check if validators pass when the submit button is clicked
     if form.validate_on_submit():
+        #create a hashed pass using bcrypt package
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+         #add user and their info to database
         user = User(emailAddress=form.email.data, password=hashed_password)
         db.session.add(user)
+        #update database
         db.session.commit()
         flash(f'Account successfully created!', 'success')
+        #move user to the new account survey
         return redirect(url_for('newSurvey'))
     return render_template('createAccount.html', title='Create Account', form=form)
 
 
-#see forms.py for more info on LoginForm() and RegistrationForm()
+#define the route to login.html
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    #check if user info is valid
     if current_user.is_authenticated:
+         #move user to returning account survey
         return redirect(url_for('survey'))
+    #set the form to the login form from forms.py
     form = LoginForm()
+    #check if validators pass when the submit button is clicked
     if form.validate_on_submit():
+        #find the user by filtering the database with a query
         user = User.query.filter_by(emailAddress=form.email.data).first()
+        #authenticates user password
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
+            #move the user to returning account survey
             return redirect(next_page) if next_page else redirect(url_for('survey'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
@@ -83,7 +98,6 @@ def survey():
     if form.validate_on_submit():
         
         if validate_course():
-            #current_user.groupName.studyType = form.group.data
             current_user.study = form.course.data
             print(current_user.study)
             db.session.commit()
@@ -109,8 +123,6 @@ def newSurvey():
             return True
     if form.validate_on_submit():
         if validate_course():
-            #current_user.groupName.studyType = form.group.data
-            #current_user.major = form.request['major']
             current_user.study = form.course.data
             print(current_user.study)
             db.session.commit()
@@ -119,9 +131,6 @@ def newSurvey():
         else:
             flash(current_user.emailAddress)
             flash('Invalid Class, try again.' , 'danger')
-
-    else:
-        flash('Invalid Class, try again.')
     return render_template('newSurvey.html', title='New Account Survey', form=form)
 
 
@@ -136,17 +145,24 @@ def findGroup():
     myUser = User.query.all()
     return render_template('findGroup.html', title='Find Group', myUser=myUser)
 
-
+#all builing routes are the same except for their building id's
+#all comments apply to each subsequent building route
 @app.route("/birdLibrary", methods=['GET', 'POST'])
+#user needs to be logged in
 @login_required
 def birdLibrary():
+    #takes form from forms.py
     form = BuildingForm()
+    #gets all rooms for the building from the database
     rooms = Room.query.filter_by(building_id='2').all()
+    #gets all amenites for each room from the database
     amens = Amenities.query.all()
     if form.validate_on_submit():
+        #if the form is submitted correctly the room reservation is created and the database is updated
         reservation = Reservation(room_id=form.confirm.data, group_id=0, building_id=2, user_id=current_user.id, totalHours=2)
         db.session.add(reservation)
         db.session.commit()
+        #redirected to the confirmation page in case the user wishes to cancel their reservation
         return redirect(url_for('confirmation'))
     return render_template('birdLibrary.html', title='Bird Library', form=form, rooms=rooms, amens=amens)
 
@@ -163,15 +179,6 @@ def lifeScienceBuilding():
         db.session.commit()
         return redirect(url_for('confirmation'))
     return render_template('lifeScienceBuilding.html', title='Life Science Building', form=form, rooms=rooms, amens=amens)
-
-
-#@app.route("/link", methods=['GET', 'POST'])
-#@login_required
-#def link():
-    #form = BuildingForm()
-    #rooms = Room.query.filter_by(building_id='6').all()
-    #amens = Amenities.query.all()
-    #return render_template('link.html', title='Link', form=form, rooms=rooms, amens=amens)
 
 
 @app.route("/falk", methods=['GET', 'POST'])
@@ -194,6 +201,11 @@ def newhouse():
     form = BuildingForm()
     rooms = Room.query.filter_by(building_id='4').all()
     amens = Amenities.query.all()
+    if form.validate_on_submit():
+        reservation = Reservation(room_id=form.confirm.data, group_id=0, building_id=4, user_id=current_user.id, totalHours=2)
+        db.session.add(reservation)
+        db.session.commit()
+        return redirect(url_for('confirmation'))
     return render_template('newhouse.html', title='Newhouse', form=form, rooms=rooms, amens=amens)
 
 
@@ -211,9 +223,25 @@ def whitman():
     return render_template('whitman.html', title='Whitman', form=form, rooms=rooms, amens=amens)
 
 
-@app.route("/confirmation")
+#this function would have had a portion to check if the room number entered was registered to an actual room in the database
+#would have also checked if there was a registration for that room but we were not able to implement these in the time frame for this project
+@app.route("/confirmation", methods=['GET', 'POST'])
+#login needed for access to this page
 @login_required
 def confirmation():
-    return render_template('confirmation.html', title='Confirm Room')
+    #gets form from forms.py
+    form = cancelReservation()
+    #queries the databse for all of the rooms
+    rooms = Room.query.all()
+    #if the form is submitted correctly
+    if form.validate_on_submit():
+        #cancels the reservation
+        #currently this is not fully functional, thus the delete and commit are commented out
+        reservation = Reservation.query.filter_by(room_id=form.name.data)
+        #db.session.delete(reservation)
+        #db.session.commit()
+        #would redirect to main page if functional
+        return redirect(url_for('map'))
+    return render_template('confirmation.html', title='Confirm Room', form=form, rooms=rooms)
 
 
