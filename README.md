@@ -39,7 +39,7 @@ Run the website by running app.py as a flask application through the drop-down m
 -When reserving a room, the inputted room number is not checked to make sure it matches a room number in the database.  
 -When reserving a room, the inputted room number is not check to make sure that the room has not already been reserved. Rooms can be double booked.  
 -When cancelling a reservation, the reservation is not actually cancelled.  
--The forgot password? button does not work when attempting to log in. 
+-The forgot password? button does not work when attempting to log in.  
 -If given more time, have external user with administrative credentials update buildings and rooms in the database. 
-
+-
 
