@@ -41,5 +41,5 @@ Once everything is installed and the environment is set up with all of the files
 -When cancelling a reservation, the reservation is not actually cancelled.  
 -The Forgot Password? button does not work when attempting to log in.  
 -If given more time, have external user with administrative credentials update buildings and rooms in the database. 
-
+-If given more time, have the system recommend rooms based off of preferences given by the user.  
 
