@@ -4,7 +4,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField
 
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField
 
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, InputRequired
 
 from studyspace.database import User, Reservation
 
@@ -50,8 +50,9 @@ class LoginForm(FlaskForm):
 class SurveyForm(FlaskForm):
     #field for user to enter the course they desire to study, only requirement is the field has some input
     course = StringField('Course you want to study', validators=[DataRequired()])
+
     #radio buttons for user to choose their preferred method of study
-    group = RadioField('Choose preferred study method', choices=[('Group'), ('Solo')])
+    group = RadioField('Choose preferred study method', choices=[('Group'), ('Solo')], validators=[InputRequired()])
     #submit button submits data from survey to database
     submit = SubmitField('Submit')
 
@@ -61,14 +62,30 @@ class BuildingForm(FlaskForm):
     floor = StringField('Floor: ')
     roomType = StringField('Room Type: ')
     capacity = StringField('Room Capacity: ')
+    #confirm demands a string input that will be the number for the room being reserved
     confirm = StringField('Confirm Room by Entering Room Number: ',
                             validators=[DataRequired()])
+    #confirmation button for confirming after inputting room number
     confirmButton = SubmitField('Confirm')
 
-    def validate_confirmation(self, confirm):
-        reservation = Reservation.query.filter_by(room_id=confirm.data).first()
+    #Not functional but also doesn't impact running
+    #Would have checked if the room had already been reserved in the database and raised an error if it had
+    def validate_reserve(self, confirm):
+        reservation = Reservation.query.filter_by(room_id=confirm.data)
         if reservation:
-            raise ValidationError('This room has already been reserved. Please select another room.')
+            raise ValidationError('Sorry, that room is already reserved. Please choose a new one.')
+    #Not functional but also doesn't impact running
+    #Would have checked if the room number was registered to a room in the database and would've raised an error if not
+    def validate_room(self, name, confirm):
+        if confirm.data != name.data:
+            raise ValidationError('That room number does not match. Please enter the correct room number for this room.')
+
+#takes in the room number for the reservation being cancelled
+class cancelReservation(FlaskForm):
+    name = StringField('Room Number: ',
+                            validators=[DataRequired()])
+    #confirmation button for cancelling reservation
+    confirm = SubmitField('Cancel Reservation')
 
 
 

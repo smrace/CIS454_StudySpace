@@ -1,24 +1,55 @@
 {% extends "layout.html" %}
 {% block content %}
 <h1>Newhouse Rooms</h1>
+<h2>Hours: 8:00AM-10:PM</h2>
+<!--Loops through the rooms so that each room in the building can be displayed with their respective specifications
+rooms is obtained from routes.py-->
 {% for room in rooms %}
 <article class="media content-section">
     <div class="media-body">
+      <!--extends the layout.html as a base template so that any changes to any general changes can just be made in layout.html-->
       <div class="article-metadata">
+        <!--Displays room number, floor, type, capacity, and amenities-->
         Room Number: <a class="mr-2">{{ room.name }}</a>
       </div>
       Room Floor: <p class="article-content">{{ room.floor }}</p>
       Room Type: <p class="article-content">{{ room.roomType }}</p>
       Room Capacity: <p class="article-content">{{ room.capacity }}</p>
       Room Amenities: <p class="article-content">{{ room.roomAmenities.name}}</p>
-      <div class="article-metadata">
-        <h2>Confirm Room</h2>
+      <!--Section dedicated to confirming room. User enters room number as confirmation and presses
+      button to reserve the room in the database-->
+      <div class="content-section">
+        <form method="POST" action="">
+            <!--form is taken from routes.py-->
+            <!--Hidden tag adds a Cross Site Request Forgery Token
+            helps against attacks-->
+          {{ form.hidden_tag() }}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Confirm Room: <a class="mr-2">{{ room.name }}</a></legend>
+                  <!--legend essentially makes Confirm Room appear as a title and the room number is added at the end-->
+              <div class="form-group">
+                <!--displays and allows users to enter the room number so they can confirm the room-->
+                  {{ form.confirm.label(class="form-control-label") }}
+                  <!--Checks to see if any errors arise from the room entered-->
+                  {% if form.confirm.errors %}
+                      {{ form.confirm(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                          {% for error in form.confirm.errors %}
+                              <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                  {% else %}
+                  <!--If no errors, the user can then confirm their room by selecting the confirmation button after inputting 
+                  the room number-->
+                      {{ form.confirm(class="form-control form-control-lg") }}
+                      <div class="form-group">
+                        {{ form.confirmButton(class="btn btn-outline-info") }}
+                      </div>
+                  {% endif %}
+              </div>
+          </fieldset>
+        </form>
       </div>
-        Room Number: <a class="mr-2">{{ room.name }}</a>
-        <a class="mr-2" href="{{ url_for('confirmation') }}">
-            <button class="pure-button button-warning confirm" type="submit">Confirm</button>
-        </a> 
-    </div>
   </article>
 {% endfor %}
 {% endblock content %}

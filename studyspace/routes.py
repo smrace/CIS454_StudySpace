@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from studyspace import app, db, bcrypt
-from studyspace.forms import RegistrationForm, LoginForm, SurveyForm, BuildingForm
+from studyspace.forms import RegistrationForm, LoginForm, SurveyForm, BuildingForm, cancelReservation
 from studyspace.database import User, Building, Group, Room, Amenities, Subject, Reservation
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -11,7 +11,6 @@ def home():
     return render_template('mainPage.html')
 
 
-#Look at if statement for when redirecting after reserving room
 
 #define the route to createAccount.html
 @app.route("/createAccount", methods=['GET', 'POST'])
@@ -37,8 +36,8 @@ def createAccount():
     return render_template('createAccount.html', title='Create Account', form=form)
 
 
-#see forms.py for more info on LoginForm() and RegistrationForm()
 
+#see forms.py for more info on LoginForm() and RegistrationForm()
 #define the route to login.html
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -152,9 +151,6 @@ def newSurvey():
         else:
             #if it doesnt exist, tell user to try inputting class again and don't move forward
             flash('Invalid Class, try again.' , 'danger')
-
-    else:
-        flash('Invalid Class, try again.')
     return render_template('newSurvey.html', title='New Account Survey', form=form)
 
 #define route for about.html
@@ -169,20 +165,26 @@ def findGroup():
     myUser = User.query.all()
     return render_template('findGroup.html', title='Find Group', myUser=myUser)
 
+
+#all builing routes are the same except for their building id's
+#all comments apply to each subsequent building route
 #define route for birdLibrary.html
 @app.route("/birdLibrary", methods=['GET', 'POST'])
+#user needs to be logged in
 @login_required
 def birdLibrary():
-    #set the form to the building form in forms.py
+    #takes form from forms.py
     form = BuildingForm()
-    #filter through rooms with a query to find the ones with building_id=2
+    #gets all rooms for the building from the database
     rooms = Room.query.filter_by(building_id='2').all()
-    #filter to find the amenities with a query
+    #gets all amenites for each room from the database
     amens = Amenities.query.all()
     if form.validate_on_submit():
+        #if the form is submitted correctly the room reservation is created and the database is updated
         reservation = Reservation(room_id=form.confirm.data, group_id=0, building_id=2, user_id=current_user.id, totalHours=2)
         db.session.add(reservation)
         db.session.commit()
+        #redirected to the confirmation page in case the user wishes to cancel their reservation
         return redirect(url_for('confirmation'))
     return render_template('birdLibrary.html', title='Bird Library', form=form, rooms=rooms, amens=amens)
 
@@ -203,14 +205,6 @@ def lifeScienceBuilding():
         return redirect(url_for('confirmation'))
     return render_template('lifeScienceBuilding.html', title='Life Science Building', form=form, rooms=rooms, amens=amens)
 
-#define route for link.html
-#@app.route("/link", methods=['GET', 'POST'])
-#@login_required
-#def link():
-    #form = BuildingForm()
-    #rooms = Room.query.filter_by(building_id='6').all()
-    #amens = Amenities.query.all()
-    #return render_template('link.html', title='Link', form=form, rooms=rooms, amens=amens)
 
 #define route for falk.html
 @app.route("/falk", methods=['GET', 'POST'])
@@ -239,6 +233,11 @@ def newhouse():
     rooms = Room.query.filter_by(building_id='4').all()
     #filter to find the amenities with a query
     amens = Amenities.query.all()
+    if form.validate_on_submit():
+        reservation = Reservation(room_id=form.confirm.data, group_id=0, building_id=4, user_id=current_user.id, totalHours=2)
+        db.session.add(reservation)
+        db.session.commit()
+        return redirect(url_for('confirmation'))
     return render_template('newhouse.html', title='Newhouse', form=form, rooms=rooms, amens=amens)
 
 #define route for whitman.html
@@ -258,10 +257,28 @@ def whitman():
         return redirect(url_for('confirmation'))
     return render_template('whitman.html', title='Whitman', form=form, rooms=rooms, amens=amens)
 
+
+
+#this function would have had a portion to check if the room number entered was registered to an actual room in the database
+#would have also checked if there was a registration for that room but we were not able to implement these in the time frame for this project
 #define route for confirmation.html
-@app.route("/confirmation")
+@app.route("/confirmation", methods=['GET', 'POST'])
+#login needed for access to this page
 @login_required
 def confirmation():
-    return render_template('confirmation.html', title='Confirm Room')
+    #gets form from forms.py
+    form = cancelReservation()
+    #queries the databse for all of the rooms
+    rooms = Room.query.all()
+    #if the form is submitted correctly
+    if form.validate_on_submit():
+        #cancels the reservation
+        #currently this is not fully functional, thus the delete and commit are commented out
+        reservation = Reservation.query.filter_by(room_id=form.name.data)
+        #db.session.delete(reservation)
+        #db.session.commit()
+        #would redirect to main page if functional
+        return redirect(url_for('map'))
+    return render_template('confirmation.html', title='Confirm Room', form=form, rooms=rooms)
 
 

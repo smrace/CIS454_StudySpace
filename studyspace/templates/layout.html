@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!--This html page is mainly from the Flask Blog series by Corey Schafer-->
+    <!--https://github.com/CoreyMSchafer/code_snippets/tree/master/Python/Flask_Blog
+    -->
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <!--If no title is fed into the page link, Study Space will be used as a generic link title-->
     {% if title %}
         <title>Study Space - {{ title }}</title>
     {% else %}
@@ -18,6 +21,8 @@
 <body>
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top">
+          <!--Creating the header bar at the top. This will contain the title Study Space
+          Along with a Home and About section that take you to the home page and the about page respectively-->
           <div class="container">
             <a class="navbar-brand mr-4" href="/">Study Space</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,12 +33,16 @@
                 <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
                 <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
               </div>
-              <!-- Navbar Right Side -->
+              <!--Creating the Navigation Bar on the right side of the screen
+              Has hrefs that can take you to the Profile, Login, Create Account respectively-->
               <div class="navbar-nav">
                 {% if current_user.is_authenticated %}
+                <!--If the user is logged in, they can go to their profile page, or logout-->
                   <a class="nav-item nav-link" href="{{ url_for('profile') }}">Profile</a>
                   <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
+                <!--If the user is not logged in, they can log in or create an account and be brought to each page depending
+                upon which they chose-->
                   <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
                   <a class="nav-item nav-link" href="{{ url_for('createAccount') }}">Create Account</a>
                 {% endif %}
@@ -45,8 +54,8 @@
     <main role="main" class="container">
         <div class="row">
           <div class="col-md-8">
-            <!--get_flash_messages recieves flash messages
-            see more info in app.py in areas such as create account-->
+            <!--Helps to display the sections such as Welcom to Study Space
+            and the options to log in or create an account-->
             {% with messages = get_flashed_messages(with_categories=true) %}
               {% if messages %}
                 {% for category, message in messages %}
@@ -58,14 +67,15 @@
             {% endwith %}
             {% block content %}{% endblock %}
           </div>
+          <!--Contents section on the right side of the screen
+          can send users to the find group page, survey page, or the map page-->
           <div class="col-md-4">
             <div class="content-section">
               <h3>Contents</h3>
-              <p class='text-muted'>Place Holder
+              <p class='text-muted'>
                 <ul class="list-group">
                   <a class="nav-item nav-link" href="/findGroup">Students Looking For Group</a>
                   <a class="nav-item nav-link" href="{{ url_for('survey') }}">Survey</a>
-                  <!----Look into changing color of button and make the rest buttons-->
                   <a class="nav-item nav-link" href="{{ url_for('map') }}">Map</a>
                 </ul>
               </p>
@@ -74,7 +84,7 @@
         </div>
     </main>
 
-    <!-- Optional JavaScript -->
+    <!-- JavaScript to make things look nice-->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
